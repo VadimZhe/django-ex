@@ -1,0 +1,17 @@
+            {% load static %}
+            <!--button id="news-header">click me</button-->
+            <!--h1>Новости</h1-->
+                {% for news_item in current_news %}
+                    <div class="row">
+                         <div class="col-xs-2">
+                            <img class="img-responsive" src="{{news_item.icon.url}}" alt="Картинка для {{news_item.title}}">
+                        </div>
+                        <div class="col-xs-10">
+                            <h3>{{news_item.title}}</h3>
+                            <p><img src="{% static "img/marker_16.png" %}"></p>
+                            <p>{{news_item.full_text}}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            <div class="salads-parallax" style="background-image: url('{% static '/img/mg_13201.jpg' %}');"></div>

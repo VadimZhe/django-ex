@@ -1,0 +1,40 @@
+{% load static %}
+        <nav class="navbar navbar-fixed-top navbar-default" style="color:black;">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" id="logo" href="#">
+                  <img class="img-responsive" src="{% static "img/logo_inverse_smaller_symbol.png" %}" alt="Fresh Point">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+              <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span id="menu_and_order">Меню и онлайн заказ</span><span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        {% for menu_section in menu_sections %}
+                            <li><a id="menu_section_{{menu_section.pk}}" href="#" class="menu-section">{{menu_section.title}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li><a href="#" id="delivery">Доставка</a></li>
+                <li><a href="#" id="vacancies">Вакансии</a></li>
+                <li><a href="#" id="contacts">Контакты</a></li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                  <li><a href="#" id="cart">
+                        <span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;
+                        <span class="badge" id="number_in_cart">{{cart_total_amount}}</span>
+                    </a>
+                  </li>
+                  <li><a href="/admin/"><span class="glyphicon glyphicon-lock"></span></a></li>
+              </ul>
+                <!--span class="navbar-text"><span class="text-warning"><b>т. (812) 97-11-555</b></span></span-->
+            </div>
+          </div>
+        </nav></title>

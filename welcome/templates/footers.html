@@ -1,0 +1,28 @@
+{% load static %}
+            <div class="row">
+                <div class="col-xs-12 first-footer">
+                    <br>
+                    <p><b>fresh point</b></p>
+                    <p><img src="{% static "img/marker_16.png" %}"></p>
+                    <p>Новое кафе популярного европейского формата <b>natural fast food</b></p>
+                    <p>следи за нами</p>
+                    <p>
+                        <a href="https://vk.com/fresh.point"><img src="{% static "img/vkbutton_small.png" %}"></a>
+                        &nbsp;&nbsp;&nbsp;
+                        <a href="https://www.facebook.com/FreshPoint.cafe"><img src="{% static "img/fbbutton.png" %}"></a>
+                        &nbsp;&nbsp;&nbsp;
+                        <a href="https://twitter.com/Fresh_Point"><img src="{% static "img/twitterbutton_small.png" %}"></a>
+                        &nbsp;&nbsp;&nbsp;
+                        <a href="https://instagram.com/fresh.point"><img src="{% static "img/instagrambutton_small.png" %}"></a>
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 second-footer">
+                    <br>
+                    <b>© Fresh Point 2015</b> • +7 (901) 97 11 555 • Санкт-Петербург
+                    {% for location in locations %}
+                         • {{location.name}}, {{location.address}}
+                    {% endfor %}
+                </div>
+            </div>

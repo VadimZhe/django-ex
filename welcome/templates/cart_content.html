@@ -1,0 +1,36 @@
+            {% for single_product_in_cart in products_in_cart%}
+                <div class="row">
+                    <div class="col-sm-5 text-left">{{single_product_in_cart.product_name}}{% if single_product_in_cart.product_date%} (Меню от {{single_product_in_cart.product_date}}){% endif %}</div>
+                    <div class="col-sm-2">{{single_product_in_cart.product_price}}</div>
+                    <div class="col-sm-2">{{single_product_in_cart.amount}}</div>
+                    <div class="col-sm-2">{{single_product_in_cart.cost}}</div>
+                    <div class="col-sm-1"><span class="glyphicon glyphicon-remove glyph-remove-product" id="remove-{{single_product_in_cart.product_id}}"></span></div>
+                 </div>
+            {% empty %}
+                 <div class="row"><h3>Ваша корзина пока пуста</h3></div>
+                 <div class="row"><a href="/products_hot/">Перейти к выбору блюд</a></div>
+            {% endfor%}
+            <div class="row">
+                <div class="col-xs-5 text-left"><strong>Итого</strong></div>
+                <div class="col-xs-2"></div>
+                <div class="col-xs-2"><strong>{{totals.total_amount}}</strong></div>
+                <div class="col-xs-2"><strong>{{totals.total_cost}}</strong></div>
+                <div class="col-xs-1"></div>
+            </div>
+            <div class="row">&nbsp;</div>
+            <div class="row align-middle">
+                <div class="col-sm-10">
+                    {% if totals.total_cost < 1000  and totals.total_amount > 0 %} <!--TODO: Вынести в настройки -->
+                        <span class="text-danger"><h3>Минимальный заказ на нашем сайте составляет {{ min_order_amount }} р.<br>Вы выбрали на сумму {{totals.total_cost}} р.</h3></span>
+                        <a href="/products_hot/">Перейти к выбору блюд</a>
+                    {% endif %}
+                    {% if too_late %}
+                        <span class="text-danger"><h3>Меню устарело. Мы принимаем заказы онлайн до {{ max_order_hour }} часов предыдущего дня. Удалите, пожалуйста, блюда за прошедшие даты и выберите новые</h3></span>
+                        <a href="/products_hot/">Перейти к выбору блюд</a>
+                    {% endif %}
+                </div>
+                <div class="col-sm-2">
+                    <a tabindex="0" role="button" id="go-checkout" class="btn btn-success {% if totals.total_cost < 1000 or too_late%}disabled{% endif %}">Оформить заказ</a>
+                </div>
+            </div>
+            <div class="row">&nbsp;</div>

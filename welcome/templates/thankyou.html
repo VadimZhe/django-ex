@@ -1,0 +1,17 @@
+{% load static %}
+            <div class="row">
+                <h1>Спасибо за заказ!</h1>
+                <div class="salads-parallax" style="background-image: url('{% static '/img/Interior1.jpg' %}');"></div>
+                <div class="col-xs-8">
+                    <!---img class="img-responsive" src="{% static 'img/moone.png' %}" alt="Moon"-->
+                    <p>Наш менеджер свяжется с Вами в ближайшее время, чтобы уточнить условия</p>
+                    <div class="alert alert-warning">
+                        <p>Заказ продублирован на указанный Вами адрес электронной почты.</p>
+                        <p>Если Вы не можете его найти, проверьте папку Спам.</p>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <p><span class="text-warning"><b>+7 (901) 97 11 555</b></span></p>
+                    <img src="{% static '/img/car.png' %}" alt="Car">
+                </div>
+            </div>

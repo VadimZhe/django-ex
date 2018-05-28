@@ -1,0 +1,236 @@
+{% load static %}
+    <h3>Детали оплаты</h3>
+    <form class="form-inline">
+        <div class="form-group" id="id_client_name_group">
+            <label for="id_client_name_2">Имя:</label>
+            <input type="text" class="form-control" id="id_client_name_2">
+        </div>
+        <div class="form-group" id="id_sender_group">
+            <label for="id_sender_2">E-mail:</label>
+            <input type="text" class="form-control" id="id_sender_2">
+        </div>
+        <div class="form-group" id="id_phone_group">
+            <label for="id_phone_2">Телефон:</label>
+            <input type="text" class="form-control" id="id_phone_2">
+        </div>
+    </form>
+    <form class="text-left" id="delivery_select">
+        <div class="form-group">
+            <div class="radio">
+                <label><input type="radio" name="delivery" id="shipping_needed" checked>Мне нужна доставка</label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="delivery" id="self_pick_up">Я заберу сам из кафе</label>
+            </div>
+        </div>
+    </form>
+    <form class="form-inline" id="form_shipping">
+        <p>Наш менеджер свяжется с вами, чтобы согласовать возможность доставки и ее стоимость.<br>Вы также можете уточнить стоимость доставки по тел. +7 (901) 97 11 555</p>
+        <div class="form-group" id="id_address_group">
+            <label for="id_address_2">Адрес:</label>
+            <input type="text" class="form-control" id="id_address_2" placeholder="Улица, дом...">
+        </div>
+        <div class="form-group">
+            <!--label for="id_address2_2">Адрес2:</label-->
+            <input type="text" class="form-control" id="id_address2_2" placeholder="Подъезд, этаж... (необяз.)">
+        </div>
+        <!--button type="submit" class="btn btn-default">Submit</button-->
+    </form>
+    <form id="form_pickup" hidden="true">
+        <div class="form-group" id="id_cafe_group">
+            <label for="id_cafe_2">Кафе Fresh Point:</label>
+            <select class="form-control" id="id_cafe_2">
+                {% for location in locations%}
+                    <option>{{location.name}} ({{location.address}})</option>
+                {% endfor %}
+            </select>
+        </div>
+    </form>
+    <form class="form-inline">
+        <div class="form-group" id="id_delivery_time_group">
+            <label for="id_delivery_time_2">Время доставки</label>
+            <!--input type="input" class="form-control" id="id_delivery_time_2"-->
+            <div class='input-group date' id='id_delivery_time_2'>
+                <input type='text' class="form-control" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(function () {
+                $('#id_delivery_time_2').datetimepicker({
+                    locale: 'ru',
+                    defaultDate: "{{default_delivery_time}}",
+                    minDate: "{{default_delivery_time}}",
+                });
+            });
+        </script>
+        <div class="form-group">
+            <label for="id_flatware_2">&nbsp;Приборы</label>
+            <input type="input" class="form-control" id="id_flatware_2" placeholder="Количество">
+            &nbsp;
+        </div>
+        <div class="checkbox">
+            <label><input type="checkbox" id="id_hot_delivery_2"> Доставка в горячем виде</label>
+        </div>
+    </form>
+    <div class="row"><h3>Ваш заказ</h3></div>
+    {% for single_product_in_cart in products_in_cart%}
+        <div class="row">
+            <div class="col-sm-5 text-left">{{single_product_in_cart.product_name}}{% if single_product_in_cart.product_date%} (Меню от {{single_product_in_cart.product_date}}){% endif %}</div>
+            <div class="col-sm-2">{{single_product_in_cart.product_price}}</div>
+            <div class="col-sm-2">{{single_product_in_cart.amount}}</div>
+            <div class="col-sm-2">{{single_product_in_cart.cost}}</div>
+            <div class="col-sm-1"></div>
+         </div>
+    {% endfor %}
+    <div class="row">
+        <div class="col-xs-5 text-left"><strong>Итого</strong></div>
+        <div class="col-xs-2"></div>
+        <div class="col-xs-2"><strong>{{totals.total_amount}}</strong></div>
+        <div class="col-xs-2"><strong>{{totals.total_cost}}</strong></div>
+        <div class="col-xs-1"></div>
+    </div>
+    <form class="form-inline" id="payment-form">
+        <div class="form-group">
+            <div class="radio">
+                <label><input type="radio" name="payment" id="id_payment_cash" checked>Оплата наличными (водителю или в кафе)</label>
+            </div>
+            &nbsp;
+            <div class="radio">
+                <label><input type="radio" name="payment" id="id_payment_bank">По безналичному расчёту (от юридического лица)</label>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="checkbox">
+            <label><input type="checkbox" id="user-agreed"> Согласен с <a href="{% static '/doc/privacy_policy.pdf'%}">политикой обработки персональных данных</a></label>
+        </div>
+    </div>
+    <div class="row">
+        <form id="checkout-form">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success" id="confirm-order-button">Подтвердить</button>
+        </form>
+    </div>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="alert alert-warning" id="message-to-user" hidden="true">
+        </div>
+    </div>
+<div id="result-message"></div>
+            <!-- Modal -->
+            <div id="wrong-date-dialog" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                <!-- Modal content-->
+                  <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Неверная дата</h4>
+                      </div>
+                      <div class="modal-body">
+                          <p>В Ваш заказ включены блюда из меню за {{cart.date}}.</p>
+                          <p>Мы не можем осуществить доставку в другой день.</p>
+                          <p>Укажите, пожалуйста, дату, соответствующую блюдам в заказе, или замените блюда.</p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">ОК</button>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+
+    <!--h3>Детали оплаты</h3>
+    <div class="row text-left">
+        <div class="col-sm-4">Имя</div>
+        <div class="col-sm-4">Email-адрес</div>
+        <div class="col-sm-4">Телефон</div>
+    </div>
+    <div class="row text-left">
+        <div class="col-sm-4">{{ form.client_name }}</div>
+        <div class="col-sm-4">{{ form.sender }}</div>
+        <div class="col-sm-4">{{ form.phone }}</div>
+    </div>
+    <div class="row text-left">
+        <div class="col-sm-4">{{ form.client_name.errors }}</div>
+        <div class="col-sm-4">{{ form.sender.errors }}</div>
+        <div class="col-sm-4">{{ form.phone.errors }}</div>
+    </div>
+    <div class="row text-left">
+        <div class="col-sm-12">
+            {{ form.errors }}
+            {{ form.non_field_errors }}
+            {{ form.source.errors }}
+            {{ form.source }}
+        </div>
+    </div>
+    <h3>Доставка</h3>
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#home">Мне нужна доставка</a></li>
+        <li><a data-toggle="tab" href="#menu1">Я заберу сам из кафе</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="home" class="tab-pane fade in active">
+            <p>Наш менеджер свяжется с вами, чтобы согласовать возможность доставки и ее стоимость. Вы также можете уточнить стоимость доставки по тел. +7 (901) 97 11 555</p>
+            <div class="row text-left">
+                <div class="col-sm-6">Адрес (улица, дом...)</div>
+                <div class="col-sm-6">Подъезд, этаж...</div>
+            </div>
+            <div class="row text-left">
+                <div class="col-sm-6">{{ form.address }}</div>
+                <div class="col-sm-6">{{ form.address2 }}</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">{{ form.address.errors }}</div>
+                <div class="col-sm-6">{{ form.address2.errors }}</div>
+            </div>
+        </div>
+        <div id="menu1" class="tab-pane fade">
+            <p>Наш менеджер свяжется с вами, чтобы согласовать возможность доставки и ее стоимость. Вы также можете уточнить стоимость доставки по тел. +7 (901) 97 11 555</p>
+            <div class="row">
+                <div class="col-sm-4">Кафе Fresh Point: </div>
+                <div class="col-sm-8">{{ form.cafe_to_pick_up }}</div>
+            </div>
+            <div class="row text-left">
+                <div class="col-sm-6"></div>
+                <div class="col-sm-6">{{ form.cafe_to_pick_up.errors }}</div>
+            </div>
+        </div>
+    </div>
+        <br>
+        <div class="row">
+            <div class="col-sm-4">Дата и время доставки</div>
+            <div class="col-sm-8">{{ form.delivery_time }}</div>
+        </div>
+        <br>
+        <div class="row">{{ form.delivery_time.errors }}</div>
+        <div class="row">
+            <div class="col-sm-2">Приборы</div>
+            <div class="col-sm-3">{{ form.flatware }}</div>
+            <div class="col-sm-7">{{ form.hot_delivery }} Доставка в горячем виде</div>
+        </div>
+        <div class="row"><h3>Ваш заказ</h3></div>
+        {% for single_product_in_cart in products_in_cart%}
+            <div class="row">
+                <div class="col-sm-5 text-left">{{single_product_in_cart.product_name}}{% if single_product_in_cart.product_date%} (Меню от {{single_product_in_cart.product_date}}){% endif %}</div>
+                <div class="col-sm-2">{{single_product_in_cart.product_price}}</div>
+                <div class="col-sm-2">{{single_product_in_cart.amount}}</div>
+                <div class="col-sm-2">{{single_product_in_cart.cost}}</div>
+                <div class="col-sm-1"></div>
+             </div>
+        {% endfor %}
+        <div class="row">
+            <div class="col-xs-5 text-left"><strong>Итого</strong></div>
+            <div class="col-xs-2"></div>
+            <div class="col-xs-2"><strong>{{totals.total_amount}}</strong></div>
+            <div class="col-xs-2"><strong>{{totals.total_cost}}</strong></div>
+            <div class="col-xs-1"></div>
+        </div>
+        <div class="row">
+            {% for choice in form.payment_method %}
+                <div class="col-sm-6"><span class="select">{{ choice.tag }}</span> {{ choice.choice_label }}</div>
+            {% endfor %}
+        </div>
+  <button type="submit">Submit</button>
+</form-->

@@ -1,0 +1,43 @@
+            {% load static %}
+            <div id="map"></div>
+            <div class="row">
+                <div class="col-sm-6 text-left">
+                    <h3>Контакты</h3>
+                    <p>Звоните:</p>
+                    <span class="text-warning"><b>+7 (901) 97 11 555</b></span>
+                    <br><br>
+                    <p>И приходите:</p>
+                    <p>Санкт-Петербург</p>
+                    <ul style="list-style-image:url({% static "img/marker_list.png" %});">
+                        {% for location in locations%}
+                        <li>{{location.name}}<br>
+                        {{location.address}}<br>
+                        {{location.hours}}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="col-sm-6 text-left">
+                    <h3>Напишите нам:</h3>
+                    <form id="feedback-form"><!-- action="/feedback/" method="post"-->
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="fieldWrapper">
+                                {{ field.errors }}
+                                {{ field.label_tag }}<br>
+                                {{ field }}
+                                {% if field.help_text %}
+                                    <p class="help">{{ field.help_text|safe }}</p>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        <div class="g-recaptcha" data-sitekey="6LcbDlkUAAAAACO9GXw6EcehpJfYtfX0frbhtCEi"></div>
+                        <input type="submit" value="Отправить"/>
+                    </form>
+                    <div id="feedback-result-message"></div>
+                </div>
+            </div>
+            <div class="row text-center">
+                <img src="{% static '/img/ufo.png' %}" vspace="20">
+            </div>
+            <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+            <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLrTQ2UCpikspwqg23slZSV4MrJpVNHRw&callback=initMap"></script>

@@ -1,0 +1,61 @@
+    .hint{
+	   letter-spacing: 7px;
+	   font face="Courier New";
+	}
+	.grayed{
+	    background-color: #f2f2f2;
+	    border: #FFFFFF medium solid;
+	}
+    .first-footer {
+        background-color: #c59d5f;
+        color: white;
+        text-align: center;
+    }
+    .second-footer {
+        background-color: #262526;
+        color: #919191;
+        text-align: center;
+    }
+    #map {
+        width: 100%;
+        height: 400px;
+        background-color: grey;
+    }
+    .salads-parallax {
+        /* The image used */
+
+        /* Set a specific height */
+        min-height: 500px;
+
+        /* Create the parallax scrolling effect */
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    .navbar {
+        font-family: "MetaSerifOT", Cambria, "PT Serif", Georgia, serif !important;
+        /*font-size: 18px;*/
+    }
+    body {
+        font-family: "MetaSerifOT", Cambria, "PT Serif", Georgia, serif !important;
+        color: #515150;
+        font-size: 18px;
+        line-height: 1.7;
+        padding-top: 40px;
+    }
+    h3 {
+        font-size: 24px;
+        font-weight: 600;
+    }
+    .affix {
+        top: 50;
+        width: 100%;
+        z-index: 9999 !important;
+    }
+    .affix + .container-fluid {
+        padding-top: 70px;
+    }
+    h1.highlight {
+        color: #c59d5f;
+    }

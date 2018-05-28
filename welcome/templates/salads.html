@@ -1,0 +1,52 @@
+{% load static %}
+<h1>САЛАТЫ, СЭНДВИЧИ, ДЕСЕРТЫ, НАПИТКИ</h1>
+
+<div class="salads-parallax" style="background-image: url('{{title_image_path}}');"></div>
+
+<div>
+    <h2>
+        {% for subtype in subtypes %}
+            {% if forloop.counter > 1 %}
+                |
+            {% endif%}
+            {{subtype.title}}
+        {% endfor %}
+    </h2>
+    {% for subtype in subtypes %}
+        {% if forloop.counter0|divisibleby:2 %}
+            <div class="row">
+        {% endif %}
+        <div class="col-md-6">
+            <h3>{{subtype.title}}</h3>
+            {% for product in subtype.products_set.all %}
+                <div class="row">
+                    <div class="col-md-7 align-middle text-left">
+                        <strong>{{product.title}}</strong>
+                        <br>
+                        <span class="small">
+                            <a tabindex="0" data-toggle="popover"
+                                title="Информация о продукте"
+                                data-html = "true"
+                                data-content="{% if product.picture %} <img class='img-responsive' src='{{product.picture.url}}' alt='pic here'>{% endif%}Состав: {{product.contents}}. Калорийность: {{product.energy}} кКал на порцию. Вес: {{product.weight}} г. на порцию"
+                                data-placement="bottom"
+                                data-trigger="focus">Показать детали
+                            </a>
+                        </span>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="col-xs-4">{{product.price}}&nbsp;р.</div>
+                        <div class="col-xs-5 text-center"><input type="number" value="1" class="form-control input-sm priceinputfield" id="product_00000000_{{product.pk}}"></div>
+                        <div class="col-xs-3"><a tabindex="0" class="glyphicon glyphicon-shopping-cart current_cart" id="cart-00000000-{{product.pk}}"></a></div>
+                    </div>
+                </div>
+            {% empty %}
+                <h4>Нет блюд в этом разделе</h4>
+            {% endfor %}
+        </div>
+        {% if not forloop.counter0|divisibleby:2 %}
+            </div>
+        {% endif %}
+    {% empty %}
+        <h3>Нет подразделов</h3>
+    {% endfor%}
+</div>

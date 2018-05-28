@@ -1,0 +1,14 @@
+{% load static %}
+            <h2>Ваш заказ <div id="cart_date">
+            {% if cart_date != '' %}
+                на {{cart_date}}
+            {% endif%}
+            </div></h2>
+            <div class="salads-parallax" style="background-image: url('{% static '/img/cart.png' %}');"></div>
+            <!--img class="img-responsive" src="{% static 'img/cart.png' %}"-->
+            <div class="alert alert-warning">
+                Вы можете разместить Ваш заказ в любой рабочий день с 9.30 до 16.00 на доставку на следующий день или более поздние даты. Если вы не успели оформить заказ вовремя, пожалуйста, свяжитесь с нами по тел. +7 (901) 97 11 555. Мы сделаем все возможное чтобы Вам помочь.
+            </div>
+            <div id="cart_content">
+                {% include 'cart_content.html' %}
+            </div>

@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <a href="fresh-point.com"><img src="http://fresh-point.com/wp-content/uploads/2015/11/logo_inverse_small_symbol.png" alt="Fresh Point"></a>
+    <h1>Уважаемый {{client_name}}, спасибо за Ваш заказ!</h1>
+    <p>Вы указали следующую информацию:</p>
+    <ul>
+        <li><strong>Телефон</strong>:{{phone}}</li>
+        <li><strong>Адрес доставки</strong>:{{delivery}}</li>
+        <li><strong>Время</strong>:{{delivery_time}}</li>
+        <li><strong>Приборы</strong>:{{flatware}}</li>
+        <li><strong>В горячем виде</strong>:{{hot_delivery}}</li>
+        <li><strong>Оплата</strong>:{{payment_method}}</li>
+    </ul>
+    <h2>Состав заказа</h2>
+    <table border="1">
+        <tr>
+            <th>Блюдо</th>
+            <th>Цена</th>
+            <th>Количество</th>
+            <th>Стоимость</th>
+        </tr>
+        {% for item in products_in_cart %}
+        <tr>
+            <td>{{item.product_name}}</td>
+            <td style="text-align: right;">{{item.product_price}}</td>
+            <td style="text-align: right;">{{item.amount}}</td>
+            <td style="text-align: right;">{{item.cost}}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <th>Итого</th>
+            <th></th>
+            <th style="text-align: right;">{{totals.total_amount}}</th>
+            <th style="text-align: right;">{{totals.total_cost}}</th>
+        </tr>
+    </table>
+    <p>Наш менеджер свяжется с Вами с ближайшее время для уточнения условий.</p>
+    <p>Если этого не произошло, не стесняйтесь звонить нам <strong>(812) 97 11 555</strong> или писать <a href="mailto:info@fresh-point.com">info@fresh-point.com</a> </p>
+    <p>С уважением,</p>
+    <p>команда <strong><a href="fresh-point.com">Fresh Point</a></strong></p>
+</body>
+</html>
